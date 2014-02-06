@@ -3,9 +3,9 @@
 /**
  * @see README.mb for further details
  *
- * @package Pico
- * @subpackage mcb_TableOfContent
- * @version 0.1 alpha
+ * @package Phile
+ * @subpackage PhileTableOfContent
+ * @version 1.0
  * @author mcbSolutions.at <dev@mcbsolutions.at>
  */
 class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
@@ -34,7 +34,7 @@ class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile
     public function on($eventKey, $data = null) {
         // check $eventKey for which you have registered
         if ($eventKey == 'config_loaded') {
-            $this->config_loaded($data);
+            $this->config_loaded();
         } else if ($eventKey == 'after_parse_content') {
             $this->after_parse_content($data['content']);
             $this->save_twig_vars();
@@ -58,19 +58,23 @@ class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile
         return '<div id="toc">'.$cap.'<ul>'.$heads.'</ul></div>';
     }
 
-    private function config_loaded(&$settings) {
-        if(isset($settings['toc_depth']))
-            $this->depth = &$settings['toc_depth'];
-        if(isset($settings['toc_min_headers']))
-            $this->min_headers = &$settings['toc_min_headers'];
-        if(isset($settings['toc_top_txt']))
-            $this->top_txt = &$settings['toc_top_txt'];
-        if(isset($settings['toc_caption']))
-            $this->caption = &$settings['toc_caption'];
-        if(isset($settings['toc_anchor']))
-            $this->anchor = &$settings['toc_anchor'];
-        if(isset($settings['top_link']))
-            $this->top_link = &$settings['top_link'];
+    private function config_loaded() {
+        // merge the arrays to bind the settings to the view
+        // Note: this->config takes precedence
+        $this->config = array_merge($this->settings, $this->config);
+
+        if(isset($this->config['toc_depth']))
+            $this->depth = &$this->config['toc_depth'];
+        if(isset($this->config['toc_min_headers']))
+            $this->min_headers = &$this->config['toc_min_headers'];
+        if(isset($this->config['toc_top_txt']))
+            $this->top_txt = &$this->config['toc_top_txt'];
+        if(isset($this->config['toc_caption']))
+            $this->caption = &$this->config['toc_caption'];
+        if(isset($this->config['toc_anchor']))
+            $this->anchor = &$this->config['toc_anchor'];
+        if(isset($this->config['top_link']))
+            $this->top_link = &$this->config['top_link'];
 
         for ($i=1; $i <= $this->depth; $i++) {
             $this->xpQuery[] = "//h$i";
