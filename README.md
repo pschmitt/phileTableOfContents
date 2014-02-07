@@ -1,6 +1,9 @@
 Table Of Contents
 =============================================================================
 
+This is a [Phile](http://philecms.github.io/Phile) port of [mcb_TableOfContent](https://github.com/mcbSolutions/Pico-Plugins/tree/master/mcb_TableOfContent) by [mcbSolutions](https://github.com/mcbSolutions).
+
+Original Copyright notice:
 Released under the [MIT license](http://opensource.org/licenses/MIT). Copyright (c) 2013 mcbSolutions.at
 
 **Version** 0.1 alpha; Please report errors.
