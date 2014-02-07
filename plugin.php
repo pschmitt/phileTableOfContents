@@ -22,13 +22,11 @@ class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile
     private $xpQuery;
 
     private $config;
-    private $twig_vars;
 
     public function __construct() {
         \Phile\Event::registerEvent('config_loaded', $this);
         \Phile\Event::registerEvent('after_parse_content', $this);
         $this->config = \Phile\Registry::get('Phile_Settings');
-        $this->twig_vars = \Phile\Registry::get('templateVars');
     }
 
     public function on($eventKey, $data = null) {
@@ -37,7 +35,7 @@ class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile
             $this->config_loaded();
         } else if ($eventKey == 'after_parse_content') {
             $this->after_parse_content($data['content']);
-            $this->save_twig_vars();
+            $this->export_twig_vars();
         }
     }
 
@@ -63,17 +61,17 @@ class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile
         // Note: this->config takes precedence
         $this->config = array_merge($this->settings, $this->config);
 
-        if(isset($this->config['toc_depth']))
+        if (isset($this->config['toc_depth']))
             $this->depth = &$this->config['toc_depth'];
-        if(isset($this->config['toc_min_headers']))
+        if (isset($this->config['toc_min_headers']))
             $this->min_headers = &$this->config['toc_min_headers'];
-        if(isset($this->config['toc_top_txt']))
+        if (isset($this->config['toc_top_txt']))
             $this->top_txt = &$this->config['toc_top_txt'];
-        if(isset($this->config['toc_caption']))
+        if (isset($this->config['toc_caption']))
             $this->caption = &$this->config['toc_caption'];
-        if(isset($this->config['toc_anchor']))
+        if (isset($this->config['toc_anchor']))
             $this->anchor = &$this->config['toc_anchor'];
-        if(isset($this->config['top_link']))
+        if (isset($this->config['top_link']))
             $this->top_link = &$this->config['top_link'];
 
         for ($i=1; $i <= $this->depth; $i++) {
@@ -134,10 +132,15 @@ class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile
         $this->toc = $this->makeToc($content);
     }
 
-    private function save_twig_vars() {
-        $this->twig_vars['toc'] = $this->toc;
-        $this->twig_vars['toc_top'] = $this->anchor ? "" : '<a id="top"></a>';
-        $this->twig_vars['top_link'] = $this->top_link;
-        \Phile\Registry::set('templateVars', $this->twig_vars);
+    private function export_twig_vars() {
+        if (\Phile\Registry::isRegistered('templateVars')) {
+            $twig_vars = \Phile\Registry::get('templateVars');
+        } else {
+            $twig_vars = array();
+        }
+        $twig_vars['toc'] = $this->toc;
+        $twig_vars['toc_top'] = $this->anchor ? "" : '<a id="top"></a>';
+        $twig_vars['top_link'] = $this->top_link;
+        \Phile\Registry::set('templateVars', $twig_vars);
     }
 }
