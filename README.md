@@ -4,6 +4,7 @@ Table Of Contents
 This is a [Phile](http://philecms.github.io/Phile) port of [mcb_TableOfContent](https://github.com/mcbSolutions/Pico-Plugins/tree/master/mcb_TableOfContent) by [mcbSolutions](https://github.com/mcbSolutions).
 
 Original Copyright notice:
+
 Released under the [MIT license](http://opensource.org/licenses/MIT). Copyright (c) 2013 mcbSolutions.at
 
 **Version** 0.1 alpha; Please report errors.
@@ -12,12 +13,21 @@ Released under the [MIT license](http://opensource.org/licenses/MIT). Copyright 
 
 Installation
 =============================================================================
-1. Copy/save the plugin into `plugins` folder
-2. Activate it in `config.php`: 
+
+* Clone this repo to your `plugins` directory:
+
+```bash
+git clone https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phileTableOfContents
+# You may consider using a submodule
+git submodule add https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phileTableOfContents
+```
+
+* Activate it in `config.php`: 
+
 ```php
 $config['plugins'] = array(
     // [...]
-    'phileUsers' => array('active' => true),
+    'phileTableOfContents' => array('active' => true),
 ); 
 ```
 
@@ -26,15 +36,15 @@ index.html
 * To the `head` of your layout file add:
 
 ```html
-<link rel="stylesheet" href="{{ base_url }}/plugins/phileTableOfContent/style.css" media="screen,projection,print">
-<link rel="stylesheet" href="{{ base_url }}/plugins/phileTableOfContent/print.css" media="print">
+<link rel="stylesheet" href="{{ base_url }}/plugins/phileTableOfContents/style.css" media="screen,projection,print">
+<link rel="stylesheet" href="{{ base_url }}/plugins/phileTableOfContents/print.css" media="print">
 ```
 
 * **Optional - Smooth scrolling:** Add 
 
 ```html
 <script src="{{ base_url }}/vendor/jquery/jquery.min.js"></script>
-<script src="{{ base_url }}/plugins/phileTableOfContent/code.js"></script>
+<script src="{{ base_url }}/plugins/phileTableOfContents/code.js"></script>
 ```
 
 * Add `{{ toc_top }}` directly after the `body` tag.

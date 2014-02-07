@@ -4,11 +4,11 @@
  * @see README.mb for further details
  *
  * @package Phile
- * @subpackage PhileTableOfContent
+ * @subpackage PhileTableOfContents
  * @version 1.0
  * @author mcbSolutions.at <dev@mcbsolutions.at>
  */
-class PhileTableOfContent extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
+class PhileTableOfContents extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
 
     // default settings
     private $depth = 3;
