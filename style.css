@@ -18,7 +18,7 @@
     font-weight: bold;
 }
 
-#toc-nav {
+.toc-nav {
     float: right;
     font-size: 12px;
     padding-right: 1.5em;
