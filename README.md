@@ -1,20 +1,16 @@
-Table Of Contents
-=============================================================================
+# Table Of Contents
 
 This is a [Phile](http://philecms.github.io/Phile) port of [mcb_TableOfContent](https://github.com/mcbSolutions/Pico-Plugins/tree/master/mcb_TableOfContent) by [mcbSolutions](https://github.com/mcbSolutions).
+
+**Generates a table of contents for the current page.**
 
 Original Copyright notice:
 
 Released under the [MIT license](http://opensource.org/licenses/MIT). Copyright (c) 2013 mcbSolutions.at
 
-**Version** 0.1 alpha; Please report errors.
+## Installation
 
-**Generates a table of contents for the current page.**
-
-Installation
-=============================================================================
-
-* Clone this repo to your `plugins` directory:
+Clone this repo to your `plugins` directory:
 
 ```bash
 git clone https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phileTableOfContents
@@ -22,7 +18,7 @@ git clone https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phi
 git submodule add https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phileTableOfContents
 ```
 
-* Activate it in `config.php`:
+Activate it in `config.php`:
 
 ```php
 $config['plugins'] = array(
@@ -31,8 +27,8 @@ $config['plugins'] = array(
 );
 ```
 
-index.html
------------------------------------------------------------------------------
+## Template
+
 * To the `head` of your layout file add:
 
 ```html
@@ -54,48 +50,62 @@ index.html
 
 Use `{{ content|toc_excerpt }}` to get an excerpt of your posts. This prints the content of the first paragraph.
 
-Optional: Config
------------------------------------------------------------------------------
+## Configuration
 
 ### toc_depth
+
 **integer**
 
 Only display header h1 to h`n` (where `n` is 1-6)
 
-    $config['toc_depth']        = 3;
+```php
+$config['toc_depth'] = 3;
+```
 
 ### toc_min_headers
+
 **integer**
 
 Only generate Table of content with at least `n` headers
 
-    $config['toc_min_headers']    = 3;
+```php
+$config['toc_min_headers'] = 3;
+```
 
 ### toc_top_txt
+
 **string**
 
 Text to display for "Move to top"
 
-    $config['toc_top_txt']        = 'Top';
+```php
+$config['toc_top_txt'] = 'Top';
+```
 
 ### toc_caption
+
 **string**
 
 Text to display as caption for the table of contents
 
-    $config['toc_caption']        = 'Table of contents';
+```php
+$config['toc_caption'] = 'Table of contents';
+```
 
 ### toc_anchor
+
 **bool**
 
 Set to false, if you like to add your own anchor
 
-    $config['toc_anchor']       = false;
+```php
+$config['toc_anchor'] = false;
+```
 
-**Note**
+### Note
 
 If you use `$config['toc_anchor'] = true;` then `{{ toc_top }}` will be disabled.
 
-Screenshot
-=============================================================================
+## Screenshot
+
 ![Screenshot of Table Of Contents](./Screenshot.png)
