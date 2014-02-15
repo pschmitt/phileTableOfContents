@@ -25,18 +25,35 @@ class PhileTableOfContents extends \Phile\Plugin\AbstractPlugin implements \Phil
 
     public function __construct() {
         \Phile\Event::registerEvent('config_loaded', $this);
+        \Phile\Event::registerEvent('template_engine_registered', $this);
         \Phile\Event::registerEvent('after_parse_content', $this);
         $this->config = \Phile\Registry::get('Phile_Settings');
     }
 
     public function on($eventKey, $data = null) {
         // check $eventKey for which you have registered
-        if ($eventKey == 'config_loaded') {
-            $this->config_loaded();
-        } else if ($eventKey == 'after_parse_content') {
-            $this->after_parse_content($data['content']);
-            $this->export_twig_vars();
+        switch ($eventKey) {
+            case 'config_loaded':
+                $this->config_loaded();
+                break;
+            case 'template_engine_registered':
+                $this->export_twig_filter($data['engine']);
+                break;
+            case 'after_parse_content':
+                $this->after_parse_content($data['content']);
+                $this->export_twig_vars();
+            break;
         }
+    }
+
+    private function export_twig_filter($twig_engine) {
+        $excerpt = new Twig_SimpleFilter('toc_excerpt', function ($string){
+            // Remove "Top" links so that they don't appear in the excerpt
+            $string = str_replace($this->top_link, '', $string);
+            // Return first paragraph
+            return strip_tags(substr($string, strpos($string, '<p'), strpos($string, '</p>') + 4));
+        });
+        $twig_engine->addFilter($excerpt);
     }
 
     private function makeToc(&$content)

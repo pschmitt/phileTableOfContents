@@ -22,13 +22,13 @@ git clone https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phi
 git submodule add https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phileTableOfContents
 ```
 
-* Activate it in `config.php`: 
+* Activate it in `config.php`:
 
 ```php
 $config['plugins'] = array(
     // [...]
     'phileTableOfContents' => array('active' => true),
-); 
+);
 ```
 
 index.html
@@ -40,7 +40,7 @@ index.html
 <link rel="stylesheet" href="{{ base_url }}/plugins/phileTableOfContents/print.css" media="print">
 ```
 
-* **Optional - Smooth scrolling:** Add 
+* **Optional - Smooth scrolling:** Add
 
 ```html
 <script src="{{ base_url }}/vendor/jquery/jquery.min.js"></script>
@@ -50,7 +50,10 @@ index.html
 * Add `{{ toc_top }}` directly after the `body` tag.
 * Add `{{ toc }}` where you want the table of contents displayed.
 * Add `{{ top_link }}` if you want a link to top outside the content.
-    
+* **Optional - Excerpt twig filter** Inspired by [Twig-filter-plugin](https://github.com/PhileCMS/phileTwigFilters)
+
+Use `{{ content|toc_excerpt }}` to get an excerpt of your posts. This prints the content of the first paragraph.
+
 Optional: Config
 -----------------------------------------------------------------------------
 
@@ -59,36 +62,36 @@ Optional: Config
 
 Only display header h1 to h`n` (where `n` is 1-6)
 
-	$config['toc_depth']		= 3;
-	
+    $config['toc_depth']        = 3;
+
 ### toc_min_headers
 **integer**
 
 Only generate Table of content with at least `n` headers
 
-	$config['toc_min_headers']	= 3;	
-	
-### toc_top_txt					
+    $config['toc_min_headers']    = 3;
+
+### toc_top_txt
 **string**
 
 Text to display for "Move to top"
 
-	$config['toc_top_txt']		= 'Top';				
-	
+    $config['toc_top_txt']        = 'Top';
+
 ### toc_caption
 **string**
 
 Text to display as caption for the table of contents
 
-	$config['toc_caption']		= 'Table of contents';
-	
+    $config['toc_caption']        = 'Table of contents';
+
 ### toc_anchor
 **bool**
 
 Set to false, if you like to add your own anchor
 
-	$config['toc_anchor']       = false;
-	
+    $config['toc_anchor']       = false;
+
 **Note**
 
 If you use `$config['toc_anchor'] = true;` then `{{ toc_top }}` will be disabled.
