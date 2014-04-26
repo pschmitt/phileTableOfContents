@@ -10,12 +10,13 @@ Released under the [MIT license](http://opensource.org/licenses/MIT). Copyright 
 
 ## Installation
 
-Clone this repo to your `plugins` directory:
+Clone this repo to `plugins/pschmitt`:
 
 ```bash
-git clone https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phileTableOfContents
+mkdir -p ~http/plugins/pschmitt
+git clone https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/pschmitt/tableOfContents
 # You may consider using a submodule
-git submodule add https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/phileTableOfContents
+git submodule add https://github.com/pschmitt/phileTableOfContents.git ~http/plugins/pschmitt/tableOfContents
 ```
 
 Activate it in `config.php`:
@@ -23,7 +24,7 @@ Activate it in `config.php`:
 ```php
 $config['plugins'] = array(
     // [...]
-    'phileTableOfContents' => array('active' => true),
+    'pschmitt\\tableOfContents' => array('active' => true),
 );
 ```
 
@@ -32,15 +33,15 @@ $config['plugins'] = array(
 * To the `head` of your layout file add:
 
 ```html
-<link rel="stylesheet" href="{{ base_url }}/plugins/phileTableOfContents/style.css" media="screen,projection,print">
-<link rel="stylesheet" href="{{ base_url }}/plugins/phileTableOfContents/print.css" media="print">
+<link rel="stylesheet" href="{{ base_url }}/plugins/pschmitt/tableOfContents/style.css" media="screen,projection,print">
+<link rel="stylesheet" href="{{ base_url }}/plugins/pschmitt/tableOfContents/print.css" media="print">
 ```
 
 * **Optional - Smooth scrolling:** Add
 
 ```html
 <script src="{{ base_url }}/vendor/jquery/jquery.min.js"></script>
-<script src="{{ base_url }}/plugins/phileTableOfContents/code.js"></script>
+<script src="{{ base_url }}/plugins/pschmitt/tableOfContents/code.js"></script>
 ```
 
 * Add `{{ toc_top }}` directly after the `body` tag.

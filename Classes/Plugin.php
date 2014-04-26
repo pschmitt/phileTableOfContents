@@ -1,14 +1,17 @@
 <?php
 
+namespace Phile\Plugin\Pschmitt\TableOfContents;
+
 /**
- * @see README.mb for further details
- *
- * @package Phile
- * @subpackage PhileTableOfContents
- * @version 1.0
- * @author mcbSolutions.at <dev@mcbsolutions.at>
- */
-class PhileTableOfContents extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
+* Class Plugin
+*
+* @author  Philipp Schmitt
+* @link    https://github.com/pschmitt/phileTableOfContents
+* @license http://opensource.org/licenses/MIT
+* @package Phile\Plugin\Pschmitt\TableOfContents
+*/
+
+class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 
     // default settings
     private $depth = 3;
@@ -47,7 +50,7 @@ class PhileTableOfContents extends \Phile\Plugin\AbstractPlugin implements \Phil
     }
 
     private function export_twig_filter($twig_engine) {
-        $excerpt = new Twig_SimpleFilter('toc_excerpt', function ($string){
+        $excerpt = new \Twig_SimpleFilter('toc_excerpt', function ($string){
             // Remove "Top" links so that they don't appear in the excerpt
             $string = str_replace($this->top_link, '', $string);
             // Return first paragraph
@@ -106,9 +109,9 @@ class PhileTableOfContents extends \Phile\Plugin\AbstractPlugin implements \Phil
         // document doesn't already contain one:
         //
         // http://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
-        $domdoc = new DOMDocument();
+        $domdoc = new \DOMDocument();
         $domdoc->loadHTML('<?xml encoding="utf-8" ?>' . $content);
-        $xp = new DOMXPath($domdoc);
+        $xp = new \DOMXPath($domdoc);
 
         $nodes =$xp->query($this->xpQuery);
 
