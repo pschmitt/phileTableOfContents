@@ -6,4 +6,5 @@ return array(
     'toc_top_txt' => 'Top',
     'toc_caption' => '',
     'toc_anchor' => false,
+    'clean_anchors' => true,
 );

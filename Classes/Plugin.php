@@ -20,6 +20,7 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
     private $caption = '';
     private $anchor = false;
     private $top_link;
+    private $clean_anchors = true;
     // internal
     private $toc = '';
     private $xpQuery;
@@ -61,19 +62,21 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 
     private function makeToc(&$content)
     {
-        //get the headings
-        if (preg_match_all('/<h[1-'.$this->depth.']{1,1}[^>]*>.*?<\/h[1-'.$this->depth.']>/s',$content,$headers) === false)
-            return "";
+        // get the headings
+        if (preg_match_all('/<h[1-' . $this->depth.']{1,1}[^>]*>.*?<\/h[1-' . $this->depth.']>/s', $content, $headers) === false)
+            return '';
 
-        //create the toc
-        $heads = implode("\n",$headers[0]);
-        $heads = preg_replace('/<a.+?\/a>/','',$heads);
-        $heads = preg_replace('/<h([1-6]) id="?/','<li class="toc$1"><a href="#',$heads);
-        $heads = preg_replace('/<\/h[1-6]>/','</a></li>',$heads);
+        error_log(print_r($headers, true), 0);
 
-        $cap = $this->caption == '' ? "" : '<p id="toc-header">'.$this->caption.'</p>';
+        // create the toc
+        $heads = implode("\n", $headers[0]);
+        $heads = preg_replace('/<a.+?\/a>/', '', $heads);
+        $heads = preg_replace('/<h([1-6]) id="?/', '<li class="toc$1"><a href="#', $heads);
+        $heads = preg_replace('/<\/h[1-6]>/', '</a></li>', $heads);
 
-        return '<div id="toc">'.$cap.'<ul>'.$heads.'</ul></div>';
+        $cap = $this->caption == '' ? '' : '<p id="toc-header">' . $this->caption . '</p>';
+
+        return '<div id="toc">' . $cap . '<ul>' . $heads . '</ul></div>';
     }
 
     private function config_loaded() {
@@ -93,8 +96,10 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
             $this->anchor = &$this->config['toc_anchor'];
         if (isset($this->config['top_link']))
             $this->top_link = &$this->config['top_link'];
+        if (isset($this->config['clean_anchors']))
+            $this->clean_anchors = &$this->config['clean_anchors'];
 
-        for ($i=1; $i <= $this->depth; $i++) {
+        for ($i = 1; $i <= $this->depth; $i++) {
             $this->xpQuery[] = "//h$i";
         }
         $this->xpQuery = join("|", $this->xpQuery);
@@ -113,20 +118,36 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
         $domdoc->loadHTML('<?xml encoding="utf-8" ?>' . $content);
         $xp = new \DOMXPath($domdoc);
 
-        $nodes =$xp->query($this->xpQuery);
+        $nodes = $xp->query($this->xpQuery);
 
         if($nodes->length < $this->min_headers)
             return;
-        // add missing id's to the h tags
-        $id = 0;
+
+        $titles = array();
+        // add missing ids to the h tags
         foreach($nodes as $i => $sort)
         {
             if (isset($sort->tagName) && $sort->tagName !== '')
             {
-                if($sort->getAttribute('id') === "")
+                if($sort->getAttribute('id') === '')
                 {
-                    ++$id;
-                    $sort->setAttribute('id', "toc_head$id");
+                    // error_log(print_r($sort, true), 0);
+                    // Lowercase and replace spaces with underscores
+                    $id = strtolower(str_replace(' ', '_', $sort->nodeValue));
+                    if ($this->clean_anchors) {
+                        // Remove leading "the"
+                        if (substr($id, 0, strlen('the_')) == 'the_') {
+                            $id = substr($id, strlen('the_'));
+                        }
+                    }
+                    // Make sure there are not 2 or more titles with the same title
+                    array_push($titles, $id);
+                    $occurences = array_count_values($titles)[$id];
+                    if ($occurences > 1) {
+                        // Append '_NUMBER'
+                        $id .= "_$occurences";
+                    }
+                    $sort->setAttribute('id', $id);
                 }
                 $a = $domdoc->createElement('a', $this->top_txt);
                 $a->setAttribute('href', '#top');
