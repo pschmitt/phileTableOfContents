@@ -66,8 +66,6 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
         if (preg_match_all('/<h[1-' . $this->depth.']{1,1}[^>]*>.*?<\/h[1-' . $this->depth.']>/s', $content, $headers) === false)
             return '';
 
-        error_log(print_r($headers, true), 0);
-
         // create the toc
         $heads = implode("\n", $headers[0]);
         $heads = preg_replace('/<a.+?\/a>/', '', $heads);
@@ -131,7 +129,6 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
             {
                 if($sort->getAttribute('id') === '')
                 {
-                    // error_log(print_r($sort, true), 0);
                     // Lowercase and replace spaces with underscores
                     $id = strtolower(str_replace(' ', '_', $sort->nodeValue));
                     if ($this->clean_anchors) {
