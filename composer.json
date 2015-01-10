@@ -1,0 +1,19 @@
+{
+    "name": "pschmitt/tableOfContents",
+    "type": "phile-plugin",
+    "license": "MIT",
+    "description": "Table of contents for Phile CMS",
+    "homepage": "https://github.com/pschmitt/phileTableOfContents",
+    "keywords": ["cms", "phile", "plugin", "toc", "tableofcontents"],
+    "authors": [
+        {
+            "name": "Philipp Schmitt",
+            "email": "p@lxl.io",
+            "homepage": "http://lxl.io/"
+        }
+    ],
+    "require": {
+        "phile-cms/phile": ">=1.0",
+        "phile-cms/plugin-installer-plugin": ">=1.0"
+    }
+}
