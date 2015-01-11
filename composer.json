@@ -1,5 +1,5 @@
 {
-    "name": "pschmitt/tableOfContents",
+    "name": "pschmitt/phile-table-of-contents",
     "type": "phile-plugin",
     "license": "MIT",
     "description": "Table of contents for Phile CMS",
