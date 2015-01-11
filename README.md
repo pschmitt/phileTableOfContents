@@ -10,6 +10,14 @@ Released under the [MIT license](http://opensource.org/licenses/MIT). Copyright 
 
 ## Installation
 
+###Using composer
+
+```bash
+composer require pschmitt/tableOfContents:dev-master
+```
+
+###But I don't like composer
+
 Clone this repo to `plugins/pschmitt`:
 
 ```bash
